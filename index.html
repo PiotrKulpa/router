@@ -18,15 +18,15 @@
 
     <script type="text/javascript">
 
-//TODO  fetch with hash
+//TODO  check current url path to prevent loading same content
     class Router {
-
-
 
       constructor(routs) {
         this.routs = routs;
         this.currentUrl = '/';
         this.viewPath = '/views/';
+        this.notFound = '404.html';
+        this.routerContent = document.getElementById('router-content');
       }
 
       setUrlMode() {
@@ -61,16 +61,16 @@
       }
 
       fetchHtml(path) {
-        var resourceIndex = this.routs.map((el) => el.route).indexOf(path),
+        let resourceIndex = this.routs.map((el) => el.route).indexOf(path),
             resource = this.routs[resourceIndex].resource,
             routerContent = document.getElementById('router-content');
 
             // clear router-content HTML element
-            routerContent.innerHTML = '';
+            this.routerContent.innerHTML = '';
             // fetch page
             fetch(this.viewPath + resource).then((response) => {
               return response.text().then((text) => {
-                routerContent.innerHTML = text;
+                this.routerContent.innerHTML = text;
               });
             });
       }
@@ -78,7 +78,7 @@
       fetch404() {
         var routerContent = document.getElementById('router-content');
         routerContent.innerHTML = '';
-        fetch(this.viewPath + '404.html').then((response) => {
+        fetch(this.viewPath + this.notFound).then((response) => {
           return response.text().then((text) => {
             routerContent.innerHTML = text;
           });
