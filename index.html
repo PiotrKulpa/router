@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+    <p>ROUTER</p>
+    <p id="demo">ROUTER LINKS:
+      <a  class="router-link" href="/" >Home</a>
+      <a  class="router-link" href="/about" >About us</a>
+      <a  class="router-link" href="/blog" >Blog</a>
+      <a  class="router-link" href="/contact" >Contact</a>
+    </p>
+
+    <div id="router-content"></div>
+
+    <script type="text/javascript">
+
+//TODO  fetch with hash
+    class Router {
+
+
+
+      constructor(routs) {
+        this.routs = routs;
+        this.currentUrl = '/';
+        this.viewPath = '/views/';
+      }
+
+      setUrlMode() {
+        return window.history ? 'history' : null;
+      }
+
+      getRouterLinks(registerNav) {
+        let links = document.getElementsByClassName("router-link");
+        for (let x = 0; x < links.length; x++) {
+          links[x].addEventListener("click", registerNav, true);
+        }
+      }
+
+      linksHistory() {
+        let registerNav = e => {
+          e.preventDefault();
+          e.stopPropagation();
+          history.pushState({page: 1}, "title 1", e.target.pathname);
+          this.fetchHtml(e.target.pathname);
+          }
+        this.getRouterLinks(registerNav);
+      }
+
+      linksHash() {
+        let registerNav = e => {
+          e.preventDefault();
+          e.stopPropagation();
+          window.location.href = '/#' + e.target.pathname;
+          this.fetchHtml();
+          }
+          this.getRouterLinks(registerNav);
+      }
+
+      fetchHtml(path) {
+        var resourceIndex = this.routs.map((el) => el.route).indexOf(path),
+            resource = this.routs[resourceIndex].resource,
+            routerContent = document.getElementById('router-content'),
+            frag = document.createDocumentFragment();
+
+            // clear router-content HTML element
+            routerContent.innerHTML = '';
+            // fetch page
+            fetch(this.viewPath + resource).then((response) => {
+              return response.text().then((text) => {
+                routerContent.innerHTML = text;
+              });
+            });
+
+
+
+      }
+
+      fetch404() {
+        var routerContent = document.getElementById('router-content');
+        routerContent.innerHTML = '';
+        fetch(this.viewPath + '404.html').then((response) => {
+          return response.text().then((text) => {
+            routerContent.innerHTML = text;
+          });
+        });
+      }
+
+      runHistoryMode() {
+        this.linksHistory()
+        this.routs.map((el) => el.route).includes(window.location.pathname) ?
+        this.fetchHtml(window.location.pathname) :
+        this.fetch404();
+      }
+
+      runHashMode() {
+        this.linksHash();
+        window.location.hash = '/';
+        window.addEventListener("hashchange", () => {
+          this.routs.map((el) => el.route).includes(window.location.hash.replace('#', '')) ?
+          this.fetchHtml() :
+          this.fetch404();
+        }, false);
+      }
+
+      navigate() {
+          this.setUrlMode() === 'history' ? this.runHistoryMode() : this.runHashMode();
+      }
+
+    }
+
+    let routs = [
+      {route: '/', resource: 'home.html'},
+      {route: '/contact', resource: 'contact.html'},
+      {route: '/about', resource: 'about.html'},
+      {route: '/blog', resource: 'blog.html'}
+    ];
+
+    let router = new Router(routs);
+    router.navigate();
+
+
+    </script>
+  </body>
+</html>
