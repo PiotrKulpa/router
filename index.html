@@ -19,6 +19,7 @@
     <script type="text/javascript">
 
 //TODO  check current url path to prevent loading same content
+    // Main class
     class Router {
 
       constructor(routs) {
@@ -29,10 +30,12 @@
         this.routerContent = document.getElementById('router-content');
       }
 
+      // Check URL mode
       setUrlMode() {
         return window.historyy ? 'history' : null;
       }
 
+      // Register click event on links
       getRouterLinks(registerNav) {
         let links = document.getElementsByClassName("router-link");
         for (let x = 0; x < links.length; x++) {
@@ -40,6 +43,7 @@
         }
       }
 
+      // Use links when history mode is available
       linksHistory() {
         let registerNav = e => {
           e.preventDefault();
@@ -50,6 +54,7 @@
         this.getRouterLinks(registerNav);
       }
 
+      // Use links when hash mode is active
       linksHash() {
         let registerNav = e => {
           e.preventDefault();
@@ -60,6 +65,7 @@
           this.getRouterLinks(registerNav);
       }
 
+      // Fetch file when url path is ok
       fetchHtml(path) {
         let resourceIndex = this.routs.map((el) => el.route).indexOf(path),
             resource = this.routs[resourceIndex].resource,
@@ -75,6 +81,7 @@
             });
       }
 
+      // Fetch 404.html when url path is wrong
       fetch404() {
         var routerContent = document.getElementById('router-content');
         routerContent.innerHTML = '';
@@ -85,6 +92,7 @@
         });
       }
 
+      // Main method to run history mode
       runHistoryMode() {
         this.linksHistory()
         this.routs.map((el) => el.route).includes(window.location.pathname) ?
@@ -92,7 +100,9 @@
         this.fetch404();
       }
 
+      // Main method to run hash mode
       runHashMode() {
+        console.log('uruchomiono ile razy');
         this.linksHash();
         window.location.hash = '/';
         window.addEventListener("hashchange", () => {
@@ -102,12 +112,14 @@
         }, false);
       }
 
+      // Activate Router
       navigate() {
           this.setUrlMode() === 'history' ? this.runHistoryMode() : this.runHashMode();
       }
 
     }
 
+    // Register paths
     let routs = [
       {route: '/', resource: 'home.html'},
       {route: '/contact', resource: 'contact.html'},
