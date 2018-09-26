@@ -30,7 +30,7 @@
       }
 
       setUrlMode() {
-        return window.history ? 'history' : null;
+        return window.historyy ? 'history' : null;
       }
 
       getRouterLinks(registerNav) {
@@ -55,7 +55,7 @@
           e.preventDefault();
           e.stopPropagation();
           window.location.href = '/#' + e.target.pathname;
-          this.fetchHtml();
+          this.fetchHtml(e.target.pathname);
           }
           this.getRouterLinks(registerNav);
       }
@@ -63,8 +63,7 @@
       fetchHtml(path) {
         var resourceIndex = this.routs.map((el) => el.route).indexOf(path),
             resource = this.routs[resourceIndex].resource,
-            routerContent = document.getElementById('router-content'),
-            frag = document.createDocumentFragment();
+            routerContent = document.getElementById('router-content');
 
             // clear router-content HTML element
             routerContent.innerHTML = '';
@@ -74,9 +73,6 @@
                 routerContent.innerHTML = text;
               });
             });
-
-
-
       }
 
       fetch404() {
@@ -101,7 +97,7 @@
         window.location.hash = '/';
         window.addEventListener("hashchange", () => {
           this.routs.map((el) => el.route).includes(window.location.hash.replace('#', '')) ?
-          this.fetchHtml() :
+          this.fetchHtml(window.location.hash.replace('#', '')) :
           this.fetch404();
         }, false);
       }
