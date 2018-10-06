@@ -53,7 +53,6 @@
 
     //TODO
     // hash mode: hashchange chrome bug
-    // add active class to links in history mode
     // bug: go from not found to home
 
     // Main class
@@ -70,7 +69,7 @@
 
       // Check URL mode
       setUrlMode() {
-        return window.historyy ? 'history' : null;
+        return window.history ? 'history' : null;
       }
 
       // Register click event on links
@@ -93,10 +92,10 @@
         let registerNav = e => {
           e.preventDefault();
           e.stopPropagation();
-          // maybe window.onpopstate will be better?
           if (this.currentUrl !== e.target.pathname) {
             history.pushState({page: 1}, "title 1", e.target.pathname);
             this.fetchHtml(e.target.pathname);
+            this.setActiveLink(window.location.pathname);
             this.currentUrl = e.target.pathname;
           }
         }
@@ -148,9 +147,12 @@
       // Main method to run history mode
       runHistoryMode() {
         this.linksHistory()
-        this.routs.map((el) => el.route).includes(window.location.pathname) ?
-        this.fetchHtml(window.location.pathname) :
-        this.fetch404();
+        if (this.routs.map((el) => el.route).includes(window.location.pathname)) {
+          this.fetchHtml(window.location.pathname);
+          this.setActiveLink(window.location.pathname);
+        } else {
+          this.fetch404();
+        }
       }
 
       // Main method to run hash mode
