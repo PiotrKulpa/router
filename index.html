@@ -51,9 +51,11 @@
 
     <script type="text/javascript">
 
-    //TODO
+    //TODO  add UMD
     // hash mode: hashchange chrome bug
     // bug: go from not found to home
+
+    let Router = (function () {
 
     // Main class
     class Router {
@@ -179,6 +181,8 @@
 
     }
 
+    return Router;
+})();
     // Register paths
     let routs = [
       {route: '/', resource: 'home.html'},
