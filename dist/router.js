@@ -1,1 +1,149 @@
-!function(t){var e={};function n(i){if(e[i])return e[i].exports;var r=e[i]={i:i,l:!1,exports:{}};return t[i].call(r.exports,r,r.exports,n),r.l=!0,r.exports}n.m=t,n.c=e,n.d=function(t,e,i){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:i})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var i=Object.create(null);if(n.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var r in t)n.d(i,r,function(e){return t[e]}.bind(null,r));return i},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=0)}([function(t,e,n){var i,r,o;void 0===this&&window,r=[],void 0===(o="function"==typeof(i=function(){return class{constructor(t){this.routs=t,this.currentUrl="/",this.viewPath="/views/",this.notFound="404.html",this.routerContent=document.getElementById("router-content"),this.links=document.getElementsByClassName("router-link")}setUrlMode(){return window.history?"history":null}getRouterLinks(t){for(let e=0;e<this.links.length;e++)this.links[e].addEventListener("click",t,!0)}setActiveLink(t){for(let t=0;t<this.links.length;t++)this.links[t].classList.remove("active");let e=document.querySelectorAll(`a[href='${t}']`);t&&(e[0].className+=" active")}linksHistory(){this.getRouterLinks(t=>{t.preventDefault(),t.stopPropagation(),this.currentUrl!==t.target.pathname&&(history.pushState({page:1},"title 1",t.target.pathname),this.fetchHtml(t.target.pathname),this.setActiveLink(window.location.pathname),this.currentUrl=t.target.pathname)})}linksHash(){this.getRouterLinks(t=>{t.preventDefault(),t.stopPropagation(),this.currentUrl!==t.target.pathname&&(window.location.href="/#"+t.target.pathname,this.fetchHtml(t.target.pathname),this.currentUrl=t.target.pathname)})}fetchHtml(t){let e=this.routs.map(t=>t.route).indexOf(t),n=this.routs[e].resource;this.routerContent.innerHTML="",fetch(this.viewPath+n).then(t=>t.text().then(t=>{this.routerContent.innerHTML=t}))}fetch404(){var t=document.getElementById("router-content");t.innerHTML="",fetch(this.viewPath+this.notFound).then(e=>e.text().then(e=>{t.innerHTML=e}))}runHistoryMode(){this.linksHistory(),this.routs.map(t=>t.route).includes(window.location.pathname)?(this.fetchHtml(window.location.pathname),this.setActiveLink(window.location.pathname)):this.fetch404()}runHashMode(){this.linksHash(),window.location.hash="/",this.links[0].className+=" active",window.addEventListener("hashchange",()=>{this.routs.map(t=>t.route).includes(window.location.hash.replace("#",""))?(this.fetchHtml(window.location.hash.replace("#","")),this.setActiveLink(window.location.hash.replace("#",""))):this.fetch404()},!1)}navigate(){"history"===this.setUrlMode()?this.runHistoryMode():this.runHashMode()}}})?i.apply(e,r):i)||(t.exports=o)}]);
+/*
+// hash mode: hashchange chrome bug
+// bug: go from not found to home
+*/
+
+(function (root, factory) {
+    if (typeof define === "function" && define.amd) {
+        define([], factory);
+    } else if (typeof exports === "object") {
+        module.exports = factory();
+    } else {
+        root.Router = factory();
+    }
+}(typeof this == 'undefined' ? window : this, function () {
+
+  // Main class
+  class Router {
+
+    constructor(routs) {
+
+      // set routs
+      this.routs = routs;
+      // set current URL
+      this.currentUrl = '/';
+      // set views folder
+      this.viewPath = '/views/';
+      // set page not found file
+      this.notFound = '404.html';
+      // get content for load pages
+      this.routerContent = document.getElementById('router-content');
+      // get all links
+      this.links = document.getElementsByClassName('router-link');
+    }
+
+    // Check URL mode
+    setUrlMode() {
+      return window.history ? 'history' : null;
+    }
+
+    // Register click event on links
+    getRouterLinks(registerNav) {
+      for (let x = 0; x < this.links.length; x++) {
+        this.links[x].addEventListener('click', registerNav, true);
+      }
+    }
+
+    setActiveLink(path) {
+      for (let x = 0; x < this.links.length; x++) {
+        this.links[x].classList.remove('active');
+      }
+      let link = document.querySelectorAll(`a[href='${path}']`);
+      path ? link[0].className += ' active' : null;
+    }
+
+    // Use links when history mode is available
+    linksHistory() {
+      let registerNav = e => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // check if url change
+        if (this.currentUrl !== e.target.pathname) {
+          history.pushState({page: 1}, "title 1", e.target.pathname);
+          this.fetchHtml(e.target.pathname);
+          this.setActiveLink(window.location.pathname);
+          this.currentUrl = e.target.pathname;
+        }
+      }
+      this.getRouterLinks(registerNav);
+    }
+
+    // Use links when hash mode is active
+    linksHash() {
+      let registerNav = e => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        //check if url change
+        if (this.currentUrl !== e.target.pathname) {
+          window.location.href = '/#' + e.target.pathname;
+          this.fetchHtml(e.target.pathname);
+          this.currentUrl = e.target.pathname;
+        }
+      }
+        this.getRouterLinks(registerNav);
+    }
+
+    // Fetch file when url path is ok
+    fetchHtml(path) {
+      let resourceIndex = this.routs.map((el) => el.route).indexOf(path),
+          resource = this.routs[resourceIndex].resource;
+
+          // clear router-content HTML element
+          this.routerContent.innerHTML = '';
+          // fetch page
+          fetch(this.viewPath + resource).then((response) => {
+            return response.text().then((text) => {
+              this.routerContent.innerHTML = text;
+            });
+          });
+    }
+
+    // Fetch 404.html when url path is wrong
+    fetch404() {
+      var routerContent = document.getElementById('router-content');
+      routerContent.innerHTML = '';
+      fetch(this.viewPath + this.notFound).then((response) => {
+        return response.text().then((text) => {
+          routerContent.innerHTML = text;
+        });
+      });
+    }
+
+    // Main method to run history mode
+    runHistoryMode() {
+      this.linksHistory()
+      if (this.routs.map((el) => el.route).includes(window.location.pathname)) {
+        this.fetchHtml(window.location.pathname);
+        this.setActiveLink(window.location.pathname);
+      } else {
+        this.fetch404();
+      }
+    }
+
+    // Main method to run hash mode
+    runHashMode() {
+      this.linksHash();
+      window.location.hash = '/';
+      this.links[0].className += ' active';
+
+      window.addEventListener('hashchange', () => {
+        if (this.routs.map((el) => el.route).includes(window.location.hash.replace('#', ''))) {
+          this.fetchHtml(window.location.hash.replace('#', ''));
+          this.setActiveLink(window.location.hash.replace('#', ''));
+        } else {
+          this.fetch404();
+        }
+      }, false);
+    }
+
+    // Activate Router
+    navigate() {
+        this.setUrlMode() === 'history' ? this.runHistoryMode() : this.runHashMode();
+    }
+
+  }
+
+  return Router;
+}));
