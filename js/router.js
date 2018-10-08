@@ -17,11 +17,18 @@
   class Router {
 
     constructor(routs) {
+
+      // set routs
       this.routs = routs;
+      // set current URL
       this.currentUrl = '/';
+      // set views folder
       this.viewPath = '/views/';
+      // set page not found file
       this.notFound = '404.html';
+      // get content for load pages
       this.routerContent = document.getElementById('router-content');
+      // get all links
       this.links = document.getElementsByClassName('router-link');
     }
 
@@ -50,6 +57,8 @@
       let registerNav = e => {
         e.preventDefault();
         e.stopPropagation();
+
+        // check if url change
         if (this.currentUrl !== e.target.pathname) {
           history.pushState({page: 1}, "title 1", e.target.pathname);
           this.fetchHtml(e.target.pathname);
@@ -120,7 +129,6 @@
       this.links[0].className += ' active';
 
       window.addEventListener('hashchange', () => {
-
         if (this.routs.map((el) => el.route).includes(window.location.hash.replace('#', ''))) {
           this.fetchHtml(window.location.hash.replace('#', ''));
           this.setActiveLink(window.location.hash.replace('#', ''));
