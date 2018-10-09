@@ -4,9 +4,9 @@
   "description": "Javascript Router with hash and history support",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "watch": "webpack --watch",
-    "start": "webpack-dev-server --open"
+    "start": "webpack --mode development --watch | webpack-dev-server --watch-content-base --open --mode development",
+    "dev": "webpack --mode development",
+    "prod": "webpack --mode production --optimize-minimize"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,9 @@
   },
   "homepage": "https://github.com/PiotrKulpa/router#readme",
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.4",
+    "babel-preset-env": "^1.7.0",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.9"

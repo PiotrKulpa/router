@@ -3,13 +3,17 @@ const path = require('path');
 module.exports = {
   entry: './src/js/router.js',
   devServer: {
-    contentBase: './src'
+    contentBase: [path.join(__dirname, '/'), path.join(__dirname, 'dist')],
+    index: 'index.html',
+    port: 9000,
+    historyApiFallback: true
   },
-  optimization: {
-   minimize: false
-  },
+
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'router.js'
+    filename: 'router.js',
+    libraryTarget: 'umd',
+    globalObject: 'this',
+    library: 'Router'
   }
 };
