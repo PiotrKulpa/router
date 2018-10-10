@@ -3,9 +3,9 @@
 // bug: go from not found to home
 */
 
-let Router = (function () {
+
   // Main class
-  class Router {
+  module.exports = class Router {
 
     constructor(routs) {
 
@@ -131,11 +131,9 @@ let Router = (function () {
 
     // Activate Router
     navigate() {
+
         this.setUrlMode() === 'history' ? this.runHistoryMode() : this.runHashMode();
+
     }
 
   }
-
-  return Router;
-
-})();

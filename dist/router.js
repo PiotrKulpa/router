@@ -3,11 +3,11 @@
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
-	else {
-		var a = factory();
-		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
-	}
-})(window, function() {
+	else if(typeof exports === 'object')
+		exports["Router"] = factory();
+	else
+		root["Router"] = factory();
+})(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -91,156 +91,21 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/js/router.js");
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ "./src/js/router.js":
+/*!**************************!*\
+  !*** ./src/js/router.js ***!
+  \**************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
-/*
-// hash mode: hashchange chrome bug
-// bug: go from not found to home
-*/
-
-let Router = (function () {
-  // Main class
-  class Router {
-
-    constructor(routs) {
-
-      // set routs
-      this.routs = routs;
-      // set current URL
-      this.currentUrl = '/';
-      // set views folder
-      this.viewPath = '/views/';
-      // set page not found file
-      this.notFound = '404.html';
-      // get content for load pages
-      this.routerContent = document.getElementById('router-content');
-      // get all links
-      this.links = document.getElementsByClassName('router-link');
-    }
-
-    // Check URL mode
-    setUrlMode() {
-      return window.history ? 'history' : null;
-    }
-
-    // Register click event on links
-    getRouterLinks(registerNav) {
-      for (let x = 0; x < this.links.length; x++) {
-        this.links[x].addEventListener('click', registerNav, true);
-      }
-    }
-
-    setActiveLink(path) {
-      for (let x = 0; x < this.links.length; x++) {
-        this.links[x].classList.remove('active');
-      }
-      let link = document.querySelectorAll(`a[href='${path}']`);
-      path ? link[0].className += ' active' : null;
-    }
-
-    // Use links when history mode is available
-    linksHistory() {
-      let registerNav = e => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        // check if url change
-        if (this.currentUrl !== e.target.pathname) {
-          history.pushState({page: 1}, "title 1", e.target.pathname);
-          this.fetchHtml(e.target.pathname);
-          this.setActiveLink(window.location.pathname);
-          this.currentUrl = e.target.pathname;
-        }
-      }
-      this.getRouterLinks(registerNav);
-    }
-
-    // Use links when hash mode is active
-    linksHash() {
-      let registerNav = e => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        //check if url change
-        if (this.currentUrl !== e.target.pathname) {
-          window.location.href = '/#' + e.target.pathname;
-          this.fetchHtml(e.target.pathname);
-          this.currentUrl = e.target.pathname;
-        }
-      }
-        this.getRouterLinks(registerNav);
-    }
-
-    // Fetch file when url path is ok
-    fetchHtml(path) {
-      let resourceIndex = this.routs.map((el) => el.route).indexOf(path),
-          resource = this.routs[resourceIndex].resource;
-
-          // clear router-content HTML element
-          this.routerContent.innerHTML = '';
-          // fetch page
-          fetch(this.viewPath + resource).then((response) => {
-            return response.text().then((text) => {
-              this.routerContent.innerHTML = text;
-            });
-          });
-    }
-
-    // Fetch 404.html when url path is wrong
-    fetch404() {
-      var routerContent = document.getElementById('router-content');
-      routerContent.innerHTML = '';
-      fetch(this.viewPath + this.notFound).then((response) => {
-        return response.text().then((text) => {
-          routerContent.innerHTML = text;
-        });
-      });
-    }
-
-    // Main method to run history mode
-    runHistoryMode() {
-      this.linksHistory()
-      if (this.routs.map((el) => el.route).includes(window.location.pathname)) {
-        this.fetchHtml(window.location.pathname);
-        this.setActiveLink(window.location.pathname);
-      } else {
-        this.fetch404();
-      }
-    }
-
-    // Main method to run hash mode
-    runHashMode() {
-      this.linksHash();
-      window.location.hash = '/';
-      this.links[0].className += ' active';
-
-      window.addEventListener('hashchange', () => {
-        if (this.routs.map((el) => el.route).includes(window.location.hash.replace('#', ''))) {
-          this.fetchHtml(window.location.hash.replace('#', ''));
-          this.setActiveLink(window.location.hash.replace('#', ''));
-        } else {
-          this.fetch404();
-        }
-      }, false);
-    }
-
-    // Activate Router
-    navigate() {
-        this.setUrlMode() === 'history' ? this.runHistoryMode() : this.runHashMode();
-    }
-
-  }
-
-  return Router;
-
-})();
-
+eval("function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\n/*\r\n// hash mode: hashchange chrome bug\r\n// bug: go from not found to home\r\n*/\n// Main class\nmodule.exports =\n/*#__PURE__*/\nfunction () {\n  function Router(routs) {\n    _classCallCheck(this, Router);\n\n    // set routs\n    this.routs = routs; // set current URL\n\n    this.currentUrl = '/'; // set views folder\n\n    this.viewPath = '/views/'; // set page not found file\n\n    this.notFound = '404.html'; // get content for load pages\n\n    this.routerContent = document.getElementById('router-content'); // get all links\n\n    this.links = document.getElementsByClassName('router-link');\n  } // Check URL mode\n\n\n  _createClass(Router, [{\n    key: \"setUrlMode\",\n    value: function setUrlMode() {\n      return window.history ? 'history' : null;\n    } // Register click event on links\n\n  }, {\n    key: \"getRouterLinks\",\n    value: function getRouterLinks(registerNav) {\n      for (var x = 0; x < this.links.length; x++) {\n        this.links[x].addEventListener('click', registerNav, true);\n      }\n    }\n  }, {\n    key: \"setActiveLink\",\n    value: function setActiveLink(path) {\n      for (var x = 0; x < this.links.length; x++) {\n        this.links[x].classList.remove('active');\n      }\n\n      var link = document.querySelectorAll(\"a[href='\".concat(path, \"']\"));\n      path ? link[0].className += ' active' : null;\n    } // Use links when history mode is available\n\n  }, {\n    key: \"linksHistory\",\n    value: function linksHistory() {\n      var _this = this;\n\n      var registerNav = function registerNav(e) {\n        e.preventDefault();\n        e.stopPropagation(); // check if url change\n\n        if (_this.currentUrl !== e.target.pathname) {\n          history.pushState({\n            page: 1\n          }, \"title 1\", e.target.pathname);\n\n          _this.fetchHtml(e.target.pathname);\n\n          _this.setActiveLink(window.location.pathname);\n\n          _this.currentUrl = e.target.pathname;\n        }\n      };\n\n      this.getRouterLinks(registerNav);\n    } // Use links when hash mode is active\n\n  }, {\n    key: \"linksHash\",\n    value: function linksHash() {\n      var _this2 = this;\n\n      var registerNav = function registerNav(e) {\n        e.preventDefault();\n        e.stopPropagation(); //check if url change\n\n        if (_this2.currentUrl !== e.target.pathname) {\n          window.location.href = '/#' + e.target.pathname;\n\n          _this2.fetchHtml(e.target.pathname);\n\n          _this2.currentUrl = e.target.pathname;\n        }\n      };\n\n      this.getRouterLinks(registerNav);\n    } // Fetch file when url path is ok\n\n  }, {\n    key: \"fetchHtml\",\n    value: function fetchHtml(path) {\n      var _this3 = this;\n\n      var resourceIndex = this.routs.map(function (el) {\n        return el.route;\n      }).indexOf(path),\n          resource = this.routs[resourceIndex].resource; // clear router-content HTML element\n\n      this.routerContent.innerHTML = ''; // fetch page\n\n      fetch(this.viewPath + resource).then(function (response) {\n        return response.text().then(function (text) {\n          _this3.routerContent.innerHTML = text;\n        });\n      });\n    } // Fetch 404.html when url path is wrong\n\n  }, {\n    key: \"fetch404\",\n    value: function fetch404() {\n      var routerContent = document.getElementById('router-content');\n      routerContent.innerHTML = '';\n      fetch(this.viewPath + this.notFound).then(function (response) {\n        return response.text().then(function (text) {\n          routerContent.innerHTML = text;\n        });\n      });\n    } // Main method to run history mode\n\n  }, {\n    key: \"runHistoryMode\",\n    value: function runHistoryMode() {\n      this.linksHistory();\n\n      if (this.routs.map(function (el) {\n        return el.route;\n      }).includes(window.location.pathname)) {\n        this.fetchHtml(window.location.pathname);\n        this.setActiveLink(window.location.pathname);\n      } else {\n        this.fetch404();\n      }\n    } // Main method to run hash mode\n\n  }, {\n    key: \"runHashMode\",\n    value: function runHashMode() {\n      var _this4 = this;\n\n      this.linksHash();\n      window.location.hash = '/';\n      this.links[0].className += ' active';\n      window.addEventListener('hashchange', function () {\n        if (_this4.routs.map(function (el) {\n          return el.route;\n        }).includes(window.location.hash.replace('#', ''))) {\n          _this4.fetchHtml(window.location.hash.replace('#', ''));\n\n          _this4.setActiveLink(window.location.hash.replace('#', ''));\n        } else {\n          _this4.fetch404();\n        }\n      }, false);\n    } // Activate Router\n\n  }, {\n    key: \"navigate\",\n    value: function navigate() {\n      this.setUrlMode() === 'history' ? this.runHistoryMode() : this.runHashMode();\n    }\n  }]);\n\n  return Router;\n}();\n\n//# sourceURL=webpack://Router/./src/js/router.js?");
 
 /***/ })
-/******/ ]);
+
+/******/ });
 });
