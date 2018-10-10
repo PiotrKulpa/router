@@ -3,7 +3,16 @@
 // bug: go from not found to home
 */
 
-let Router = (function () {
+(function (root, factory) {
+    if (typeof define === "function" && define.amd) {
+        define([], factory);
+    } else if (typeof exports === "object") {
+        module.exports = factory();
+    } else {
+        root.Router = factory();
+    }
+}(typeof this == 'undefined' ? window : this, function () {
+
   // Main class
   class Router {
 
@@ -137,5 +146,4 @@ let Router = (function () {
   }
 
   return Router;
-
-})();
+}));
