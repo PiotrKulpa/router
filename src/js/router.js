@@ -2,10 +2,11 @@
 // hash mode: hashchange chrome bug
 // bug: go from not found to home
 */
-
+'use strict';
 
   // Main class
   module.exports = class Router {
+
 
     constructor(routs) {
 
@@ -51,12 +52,12 @@
 
         // check if url change
         if (this.currentUrl !== e.target.pathname) {
-          history.pushState({page: 1}, "title 1", e.target.pathname);
+          history.pushState({page: 1}, 'title 1', e.target.pathname);
           this.fetchHtml(e.target.pathname);
           this.setActiveLink(window.location.pathname);
           this.currentUrl = e.target.pathname;
         }
-      }
+      };
       this.getRouterLinks(registerNav);
     }
 
@@ -72,7 +73,7 @@
           this.fetchHtml(e.target.pathname);
           this.currentUrl = e.target.pathname;
         }
-      }
+      };
         this.getRouterLinks(registerNav);
     }
 
@@ -104,7 +105,7 @@
 
     // Main method to run history mode
     runHistoryMode() {
-      this.linksHistory()
+      this.linksHistory();
       if (this.routs.map((el) => el.route).includes(window.location.pathname)) {
         this.fetchHtml(window.location.pathname);
         this.setActiveLink(window.location.pathname);
@@ -136,4 +137,4 @@
 
     }
 
-  }
+  };
