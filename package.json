@@ -4,9 +4,7 @@
   "description": "Javascript Router with hash and history support",
   "main": "index.js",
   "scripts": {
-    "test-server": "webpack-dev-server mocha!./test/test.js --output-file testBundle.js",
-    "test-browser": "open http://localhost:8080/webpack-dev-server/testBundle",
-    "test": "npm run test-browser && npm run test-server",
+    "test": "webpack-dev-server --config test.config.js --watch-content-base --open --mode development",
     "start": "webpack --mode development --watch | webpack-dev-server --watch-content-base --open --mode development",
     "dev": "webpack --mode development",
     "prod": "webpack --mode production --optimize-minimize"
