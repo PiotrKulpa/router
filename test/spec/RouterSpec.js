@@ -40,4 +40,22 @@ describe("Router", function() {
     expect(router.fetchHtml).toHaveBeenCalled();
     expect(router.fetchHtml).toHaveBeenCalledWith('/contact');
   });
+
+  it("should set default mode to hash", function() {
+    router.setUrlModeToHash  = function () {return 'hash'};
+    expect(router.setUrlModeToHash()).not.toEqual('history');
+  });
+
+  it("should change default location path", function() {
+    var newPathname = '/test'
+    expect(router.currentUrl).not.toEqual(newPathname);
+  });
+
+  it("should have path /contact", function() {
+    expect(router.checkRouteExist('/contact')).toBeTruthy();
+  });
+
+  it("should not have path /test", function() {
+    expect(router.checkRouteExist('/test')).toBeFalsy();
+  });
 });

@@ -103,10 +103,15 @@
       });
     }
 
+    // Check if route exist
+    checkRouteExist(path) {
+      return this.routs.map((el) => el.route).includes(path);
+    }
+
     // Main method to run history mode
     runHistoryMode() {
       this.linksHistory();
-      if (this.routs.map((el) => el.route).includes(window.location.pathname)) {
+      if (this.checkRouteExist(window.location.pathname)) {
         this.fetchHtml(window.location.pathname);
         this.setActiveLink(window.location.pathname);
       } else {
