@@ -55,11 +55,16 @@
 
     // Register paths
     let routs = [
-      {route: '/', resource: 'home.html'},
+      {route: '/', resource: 'home.html', code: homeCode},
       {route: '/contact', resource: 'contact.html'},
       {route: '/about', resource: 'about.html'},
       {route: '/blog', resource: 'blog.html'}
     ];
+
+    // Functions to run when specyfic path is loaded
+    function homeCode() {
+      console.log('home page is loaded');
+    }
 
     // Run router
     let router = new Router(routs);
