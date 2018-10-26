@@ -77,8 +77,13 @@
         this.getRouterLinks(registerNav);
     }
 
+    loadScripts(resourceIndex) {
+      this.routs[resourceIndex].code();
+    }
+
     // Fetch file when url path is ok
     fetchHtml(path) {
+      // TODO get this as Router method
       let resourceIndex = this.routs.map((el) => el.route).indexOf(path),
           resource = this.routs[resourceIndex].resource;
 
@@ -88,6 +93,8 @@
           fetch(this.viewPath + resource).then((response) => {
             return response.text().then((text) => {
               this.routerContent.innerHTML = text;
+            }).then(() => {
+              this.loadScripts(resourceIndex);
             });
           });
     }
