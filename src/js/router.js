@@ -77,8 +77,9 @@
         this.getRouterLinks(registerNav);
     }
 
+    // Load custom script when path exist
     loadScripts(resourceIndex) {
-      this.routs[resourceIndex].code();
+      this.routs[resourceIndex].code ? this.routs[resourceIndex].code() : null;
     }
 
     // Fetch file when url path is ok
