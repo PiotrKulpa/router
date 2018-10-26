@@ -78,15 +78,19 @@
     }
 
     // Load custom script when path exist
-    loadScripts(resourceIndex) {
-      this.routs[resourceIndex].code ? this.routs[resourceIndex].code() : null;
+    loadScripts(index) {
+      this.routs[index].code ? this.routs[index].code() : null;
+    }
+
+    //get Rout Index
+    getRoutIndex(path) {
+      return this.routs.map((el) => el.route).indexOf(path);
     }
 
     // Fetch file when url path is ok
     fetchHtml(path) {
       // TODO get this as Router method
-      let resourceIndex = this.routs.map((el) => el.route).indexOf(path),
-          resource = this.routs[resourceIndex].resource;
+          let resource = this.routs[this.getRoutIndex(path)].resource;
 
           // clear router-content HTML element
           this.routerContent.innerHTML = '';
@@ -95,7 +99,7 @@
             return response.text().then((text) => {
               this.routerContent.innerHTML = text;
             }).then(() => {
-              this.loadScripts(resourceIndex);
+              this.loadScripts(this.getRoutIndex(path));
             });
           });
     }
