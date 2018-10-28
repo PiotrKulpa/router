@@ -58,4 +58,8 @@ describe("Router", function() {
   it("should not have path /test", function() {
     expect(router.checkRouteExist('/test')).toBeFalsy();
   });
+
+  it("should have route number 1", function() {
+    expect(router.getRoutIndex('/contact')).toEqual(1);
+  });
 });

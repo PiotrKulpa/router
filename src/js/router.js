@@ -89,7 +89,7 @@
 
     // Fetch file when url path is ok
     fetchHtml(path) {
-      // TODO get this as Router method
+      
           let resource = this.routs[this.getRoutIndex(path)].resource;
 
           // clear router-content HTML element

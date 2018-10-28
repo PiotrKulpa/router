@@ -12,7 +12,7 @@ module.exports = {
   },
   output: {
     libraryTarget: 'umd',
-    path: path.resolve(__dirname, 'test'),
+    path: path.resolve(__dirname, 'public'),
     filename: 'router.js',
     libraryTarget: 'umd',
     globalObject: 'this',
