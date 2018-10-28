@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "webpack-dev-server --config test.config.js --watch-content-base --open --mode development",
-    "start": "webpack --mode development --watch | webpack-dev-server --watch-content-base --open --mode development",
+    "start": "webpack-dev-server --config server.config.js --mode development --open",
     "dev": "webpack --mode development",
     "prod": "webpack --mode production --optimize-minimize"
   },

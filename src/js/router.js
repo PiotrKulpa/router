@@ -149,9 +149,7 @@
 
     // Activate Router
     navigate() {
-
         this.setUrlMode() === 'history' ? this.runHistoryMode() : this.runHashMode();
-
     }
 
   };
