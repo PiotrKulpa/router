@@ -3,8 +3,9 @@ const path = require('path');
 module.exports = {
   entry: './src/js/router.js',
   devServer: {
-    contentBase: path.join(__dirname, 'test'),
-    index: 'index.html',
+    contentBase: path.join(__dirname, '/'),
+    index: 'test.html',
+    openPage: 'test.html',
     port: 3000,
     watchOptions: {
       poll: true

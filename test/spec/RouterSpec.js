@@ -62,4 +62,13 @@ describe("Router", function() {
   it("should have route number 1", function() {
     expect(router.getRoutIndex('/contact')).toEqual(1);
   });
+
+  it("should test router-link", function() {
+    let link = document.querySelector('.router-link');
+    console.log(link);
+    expect(link.classList.contains('active')).toBeFalsy();
+    link.click();
+      expect(link.classList.contains('active')).toBeTruthy();
+  });
+
 });

@@ -36,6 +36,7 @@
       }
     }
 
+    // set active link class
     setActiveLink(path) {
       for (let x = 0; x < this.links.length; x++) {
         this.links[x].classList.remove('active');
@@ -89,11 +90,12 @@
 
     // Fetch file when url path is ok
     fetchHtml(path) {
-      
+          // set html resource to load
           let resource = this.routs[this.getRoutIndex(path)].resource;
 
           // clear router-content HTML element
           this.routerContent.innerHTML = '';
+
           // fetch page
           fetch(this.viewPath + resource).then((response) => {
             return response.text().then((text) => {
