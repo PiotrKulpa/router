@@ -63,12 +63,20 @@ describe("Router", function() {
     expect(router.getRoutIndex('/contact')).toEqual(1);
   });
 
-  it("should test router-link", function() {
-    let link = document.querySelector('.router-link');
+  it("should set active class when contact is clicked", function() {
+    let link = document.querySelectorAll('.router-link');
     console.log(link);
-    expect(link.classList.contains('active')).toBeFalsy();
-    link.click();
-      expect(link.classList.contains('active')).toBeTruthy();
+    expect(link[3].classList.contains('active')).toBeFalsy();
+    link[3].click();
+    expect(link[3].classList.contains('active')).toBeTruthy();
+  });
+
+  it("should set active class when home is clicked", function() {
+    let link = document.querySelectorAll('.router-link');
+    console.log(link);
+    expect(link[0].classList.contains('active')).toBeTruthy();
+    link[0].click();
+    expect(link[0].classList.contains('active')).toBeTruthy();
   });
 
 });
